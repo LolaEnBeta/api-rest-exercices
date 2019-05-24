@@ -56,5 +56,14 @@ def delete_user(id):
             return jsonify("User deleted")
     abort(404)
 
+@app.route("/users/<int:id>", methods=["PUT"])
+def put_user(id):
+    for user in users:
+        if user["id"] == id:
+            user["userName"] = request.json.get("userName", user["userName"])
+            user["email"] = request.json.get("email", user["email"])
+            user["state"] = request.json.get("state", user["state"])
+            return jsonify({"User modified": user})
+
 if __name__ == "__main__":
     app.run(debug=True)
