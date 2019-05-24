@@ -35,5 +35,9 @@ def get_a_user(id):
             return jsonify({"User": user})
     abort(404)
 
+@app.errorhandler(404)
+def not_found(error):
+    return jsonify({"User": "Not found"})
+
 if __name__ == "__main__":
     app.run(debug=True)
