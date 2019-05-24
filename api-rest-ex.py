@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, abort
 
 app = Flask (__name__)
 
@@ -27,6 +27,13 @@ def index():
 @app.route("/users", methods=["GET"])
 def get_users():
     return jsonify({"List of users": users})
+
+@app.route("/users/<int:id>", methods=["GET"])
+def get_a_user(id):
+    for user in users:
+        if user["id"] == id:
+            return jsonify({"User": user})
+    abort(404)
 
 if __name__ == "__main__":
     app.run(debug=True)
