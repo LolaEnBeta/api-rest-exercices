@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, abort
+from flask import Flask, jsonify, abort, request
 
 app = Flask (__name__)
 
@@ -38,6 +38,15 @@ def get_a_user(id):
 @app.errorhandler(404)
 def not_found(error):
     return jsonify({"User": "Not found"})
+
+@app.route("/users", methods=["POST"])
+def post_user():
+    userName = request.json.get("userName")
+    id = users[-1].get("id") + 1
+    email = request.json.get("email")
+    status = False
+    users.append({"userName": userName, "id": id, "email": email, "status": status})
+    return jsonify({"userName": userName, "id": id, "email": email, "status": status})
 
 if __name__ == "__main__":
     app.run(debug=True)
