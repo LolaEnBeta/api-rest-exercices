@@ -48,5 +48,13 @@ def post_user():
     users.append({"userName": userName, "id": id, "email": email, "status": status})
     return jsonify({"userName": userName, "id": id, "email": email, "status": status})
 
+@app.route("/users/<int:id>", methods=["DELETE"])
+def delete_user(id):
+    for user in users:
+        if user["id"] == id:
+            users.remove(user)
+            return jsonify("User deleted")
+    abort(404)
+
 if __name__ == "__main__":
     app.run(debug=True)
