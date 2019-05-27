@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, abort, request
+from flask import Flask, jsonify, abort, request, make_response
 
 app = Flask (__name__)
 
@@ -37,10 +37,12 @@ def get_a_user(id):
 
 @app.errorhandler(404)
 def not_found(error):
-    return jsonify({"User": "Not found"})
+    return make_response(jsonify({"User": "Not found"}), 404)
 
 @app.route("/users", methods=["POST"])
 def post_user():
+    if not "email" in request.json:
+        abort(404)
     userName = request.json.get("userName")
     id = users[-1].get("id") + 1
     email = request.json.get("email")
